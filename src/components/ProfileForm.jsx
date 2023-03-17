@@ -1,6 +1,6 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Container, Grid, TextField } from "@mui/material";
 import { db, auth } from "../services/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { storage } from "../services/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState } from "react";
@@ -19,70 +19,76 @@ function ProfileForm() {
   } = useForm();
 
   return (
-    <Grid container textAlign="center">
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          if (imageUpload) {
-            const storageRef = ref(
-              storage,
-              `profileImages/${imageUpload.name}`
-            );
-            uploadBytes(storageRef, imageUpload).then(() => {
-              console.log("Image Uploaded");
-            });
-            getDownloadURL(
-              ref(storage, `profileImages/${imageUpload.name}`)
-            ).then(async (url) => {
-              const taskRef = await addDoc(
-                collection(db, `users/${user.uid}/profile`),
-                { name: data.name, lastName: data.lastName, imageUrl: url }
+    <Container sx={{ mt: 10 }}>
+      <Grid container textAlign="center">
+        <form
+          onSubmit={handleSubmit(async (data) => {
+            if (imageUpload) {
+              const storageRef = ref(
+                storage,
+                `profile_images/${imageUpload.name}`
               );
-            });
-          }
-          reset();
-        })}
-      >
-        <Grid container flexDirection="column" rowSpacing={2}>
-          <Grid item>
-            <TextField
-              error={errors.name}
-              id="standard-basic"
-              fullWidth
-              label="Name"
-              variant="outlined"
-              helperText={errors.name ? "Name required" : ""}
-              {...register("name", { required: true })}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              error={errors.lastName}
-              helperText={errors.lastName ? "Last name required" : ""}
-              fullWidth
-              id="standard-basic"
-              label="Last Name"
-              variant="outlined"
-              {...register("lastName", { required: true })}
-            />
-          </Grid>
-          <Grid item>
+              uploadBytes(storageRef, imageUpload)
+                .then(() => {
+                  return getDownloadURL(storageRef);
+                })
+                .then((url) => {
+                  return setDoc(
+                    doc(db, `users/${user.uid}`),
+                    {
+                      firstName: data.firstName,
+                      lastName: data.lastName,
+                      imageUrl: url,
+                    },
+                    { merge: true }
+                  );
+                });
+            }
+            reset();
+          })}
+        >
+          <Grid container flexDirection="column" rowSpacing={2}>
             <Grid item>
               <TextField
-                type="file"
+                error={errors.firstName}
+                id="standard-basic"
+                fullWidth
+                label="First name"
                 variant="outlined"
-                {...register("file", {
-                  required: true,
-                  onChange: (e) => setImageUpload(e.target.files[0]),
-                })}
+                helperText={errors.firstName ? "Name required" : ""}
+                {...register("firstName", { required: true })}
               />
             </Grid>
-            <Button type="submit" variant="outlined" fullWidth>
-              Add
-            </Button>
+            <Grid item>
+              <TextField
+                error={errors.lastName}
+                helperText={errors.lastName ? "Last name required" : ""}
+                fullWidth
+                id="standard-basic"
+                label="Last name"
+                variant="outlined"
+                {...register("lastName", { required: true })}
+              />
+            </Grid>
+            <Grid item>
+              <Grid item>
+                <TextField
+                  type="file"
+                  variant="outlined"
+                  {...register("file", {
+                    required: true,
+                    onChange: (e) => setImageUpload(e.target.files[0]),
+                  })}
+                />
+              </Grid>
+              <Button type="submit" variant="outlined" fullWidth>
+                Add
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
-    </Grid>
+        </form>
+      </Grid>
+    </Container>
   );
 }
 
