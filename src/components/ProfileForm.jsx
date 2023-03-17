@@ -6,6 +6,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuthState } from "react-firebase-hooks/auth";
+import ProfileBox from "./ProfileBox";
 
 function ProfileForm() {
   const [user, loading, error] = useAuthState(auth);
@@ -20,6 +21,7 @@ function ProfileForm() {
 
   return (
     <Container sx={{ mt: 10 }}>
+      <ProfileBox />
       <Grid container textAlign="center">
         <form
           onSubmit={handleSubmit(async (data) => {
