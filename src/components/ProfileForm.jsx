@@ -1,4 +1,4 @@
-import { Button, Container, Grid, TextField } from "@mui/material";
+import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { db, auth } from "../services/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { storage } from "../services/firebase";
@@ -20,9 +20,11 @@ function ProfileForm() {
   } = useForm();
 
   return (
-    <Container sx={{ mt: 10 }}>
-      <ProfileBox />
-      <Grid container textAlign="center">
+    <Container sx={{ mt: 10, width: "50%" }}>
+      <Typography sx={{ textAlign: "center", mb: 2 }}>
+        Personal information
+      </Typography>
+      <Grid container textAlign="center" justifyContent="center">
         <form
           onSubmit={handleSubmit(async (data) => {
             if (imageUpload) {
@@ -49,8 +51,8 @@ function ProfileForm() {
             reset();
           })}
         >
-          <Grid container flexDirection="column" rowSpacing={2}>
-            <Grid item>
+          <Grid container flexDirection="row" rowSpacing={2} columnSpacing={2}>
+            <Grid item xs={6}>
               <TextField
                 error={errors.firstName}
                 id="standard-basic"
@@ -61,7 +63,7 @@ function ProfileForm() {
                 {...register("firstName", { required: true })}
               />
             </Grid>
-            <Grid item>
+            <Grid item xs={6}>
               <TextField
                 error={errors.lastName}
                 helperText={errors.lastName ? "Last name required" : ""}
@@ -72,18 +74,19 @@ function ProfileForm() {
                 {...register("lastName", { required: true })}
               />
             </Grid>
-            <Grid item>
-              <Grid item>
-                <TextField
-                  type="file"
-                  variant="outlined"
-                  {...register("file", {
-                    required: true,
-                    onChange: (e) => setImageUpload(e.target.files[0]),
-                  })}
-                />
-              </Grid>
-              <Button type="submit" variant="outlined" fullWidth>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                type="file"
+                variant="outlined"
+                {...register("file", {
+                  required: true,
+                  onChange: (e) => setImageUpload(e.target.files[0]),
+                })}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" variant="outlined" sx={{ width: "40%" }}>
                 Add
               </Button>
             </Grid>

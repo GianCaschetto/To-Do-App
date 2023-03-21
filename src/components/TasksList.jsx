@@ -20,6 +20,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../services/firebase";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { Container } from "@mui/system";
 
 function TasksList({ setUpdateTask }) {
   const [tasks, setTasks] = useState([]);
@@ -47,7 +48,11 @@ function TasksList({ setUpdateTask }) {
   // }, []);
 
   if (!tasks?.length) {
-    return <h2> No tasks </h2>;
+    return (
+      <Container>
+        <Typography sx={{ textAlign: "center" }}>No tasks yet</Typography>
+      </Container>
+    );
   }
 
   return (
@@ -83,7 +88,6 @@ function TasksList({ setUpdateTask }) {
                   />
                 </Grid>
                 <Grid item xs={2} md={2}>
-                  {" "}
                   <ListItemButton
                     onClick={async () =>
                       await deleteDoc(
@@ -97,7 +101,6 @@ function TasksList({ setUpdateTask }) {
                   </ListItemButton>
                 </Grid>
                 <Grid item xs={2} md={2}>
-                  {" "}
                   <ListItemButton onClick={() => setUpdateTask(task)}>
                     <ListItemIcon>
                       <EditOutlinedIcon />

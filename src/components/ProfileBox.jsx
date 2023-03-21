@@ -1,4 +1,4 @@
-import { Box, Avatar, Typography } from "@mui/material";
+import { Box, Avatar, Typography, Container } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../services/firebase";
 import { useEffect, useState } from "react";
@@ -17,14 +17,30 @@ function ProfileBox() {
   }, [user]);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "row" }}>
-      <Avatar alt="user-photo" src={userProfile?.imageUrl ?? null} />
-      {userProfile ? (
-        <Typography>
-          {`${userProfile.firstName} ${userProfile.lastName}`}
-        </Typography>
-      ) : null}
-    </Box>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#4054B2",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "250px",
+        mt: 2,
+      }}
+    >
+      <Avatar
+        alt="user-photo"
+        src={userProfile?.imageUrl ?? null}
+        sx={{ mb: 2, width: 100, height: 100 }}
+      />
+      <Box>
+        {userProfile ? (
+          <Typography component="h2" variant="h4">
+            {`${userProfile.firstName} ${userProfile.lastName}`}
+          </Typography>
+        ) : null}
+      </Box>
+    </Container>
   );
 }
 
