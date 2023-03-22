@@ -50,7 +50,15 @@ function TasksList({ setUpdateTask }) {
   if (!tasks?.length) {
     return (
       <Container>
-        <Typography sx={{ textAlign: "center" }}>No tasks yet</Typography>
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: "18px",
+            color: "red",
+          }}
+        >
+          No tasks yet, please add a task
+        </Typography>
       </Container>
     );
   }

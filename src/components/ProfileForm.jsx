@@ -1,4 +1,11 @@
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { db, auth } from "../services/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { storage } from "../services/firebase";
@@ -20,7 +27,7 @@ function ProfileForm() {
   } = useForm();
 
   return (
-    <Container sx={{ mt: 10, width: "50%" }}>
+    <Container sx={{ mt: 5, mb: 5, width: "50%" }}>
       <Typography sx={{ textAlign: "center", mb: 2 }}>
         Personal information
       </Typography>
@@ -42,6 +49,8 @@ function ProfileForm() {
                     {
                       firstName: data.firstName,
                       lastName: data.lastName,
+                      age: data.age,
+                      gender: data.gender,
                       imageUrl: url,
                     },
                     { merge: true }
@@ -75,6 +84,38 @@ function ProfileForm() {
               />
             </Grid>
             <Grid item xs={6}>
+              <TextField
+                type="number"
+                error={errors.age}
+                helperText={errors.age ? "Age required" : ""}
+                fullWidth
+                id="standard-basic"
+                label="Age"
+                variant="outlined"
+                {...register("age", { required: true, max: 99, min: 10 })}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                select
+                defaultValue="male"
+                error={errors.gender}
+                helperText={errors.gender ? "Gender required" : ""}
+                fullWidth
+                id="standard-basic"
+                label="Gender"
+                variant="outlined"
+                {...register("gender", { required: true })}
+              >
+                <MenuItem key={crypto.randomUUID()} value="male">
+                  Male
+                </MenuItem>
+                <MenuItem key={crypto.randomUUID()} value="female">
+                  Female
+                </MenuItem>
+              </TextField>
+            </Grid>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 type="file"
