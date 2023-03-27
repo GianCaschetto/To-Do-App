@@ -26,6 +26,7 @@ function LoginPage() {
       }}
     >
       <SignInForm action={action} />
+
       <Button variant="text" sx={{ marginTop: "10px" }} onClick={handleClick}>
         {action === "signin" ? "Create an account" : "Sign In"}
       </Button>

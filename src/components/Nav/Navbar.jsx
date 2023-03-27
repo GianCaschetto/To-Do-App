@@ -49,8 +49,11 @@ function NavBar() {
       <AppBar position="fixed" sx={{ backgroundColor: "#0D1AE9" }}>
         <Toolbar>
           <Typography variant="h5" sx={{ flexGrow: "1" }}>
-            To Do App
+            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+              To Do App
+            </Link>
           </Typography>
+
           <Button
             id="basic-button"
             aria-controls={open ? "basic-menu" : undefined}

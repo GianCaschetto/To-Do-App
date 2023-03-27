@@ -35,7 +35,7 @@ function ProfileBox() {
       />
       <Box>
         {userProfile ? (
-          <Typography component="h2" variant="h4">
+          <Typography component="h2" variant="h4" sx={{ textAlign: "center" }}>
             {`${userProfile.firstName} ${userProfile.lastName}`}
           </Typography>
         ) : null}

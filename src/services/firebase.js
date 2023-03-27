@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut  } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -63,5 +63,19 @@ const logOut = () => {
   console.log("Log Out");
 };
 
+//Reset password
+const resetPassword = ({email}) => {
+  sendPasswordResetEmail(auth, email)
+  .then(() => {
+    console.log("Email sent to reset password");
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
+}
 
-export {signUp, signIn, logOut, auth, db, storage};
+
+
+export {signUp, signIn, logOut, resetPassword, auth, db, storage};

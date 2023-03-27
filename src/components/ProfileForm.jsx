@@ -27,7 +27,7 @@ function ProfileForm() {
   } = useForm();
 
   return (
-    <Container sx={{ mt: 5, mb: 5, width: "50%" }}>
+    <Container sx={{ mt: 5, mb: 5, width: "70%" }}>
       <Typography sx={{ textAlign: "center", mb: 2 }}>
         Personal information
       </Typography>
@@ -61,7 +61,7 @@ function ProfileForm() {
           })}
         >
           <Grid container flexDirection="row" rowSpacing={2} columnSpacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 error={errors.firstName}
                 id="standard-basic"
@@ -72,7 +72,7 @@ function ProfileForm() {
                 {...register("firstName", { required: true })}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 error={errors.lastName}
                 helperText={errors.lastName ? "Last name required" : ""}
